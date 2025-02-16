@@ -38,7 +38,7 @@
 // }
 
 import TicketService from './TicketService';
-import { TicketView } from './TicketView';
+import TicketView from './TicketView';
 
 export default class HelpDesk {
   constructor(container) {

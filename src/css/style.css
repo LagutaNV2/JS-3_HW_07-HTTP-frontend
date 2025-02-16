@@ -1,4 +1,178 @@
+/* Общие стили */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f6fa;
+  color: #2c3e50;
+}
+
+/* Контейнер приложения */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Шапка */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  color: #3498db;
+  font-size: 24px;
+}
+
+/* Кнопки */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+}
+
+/* Список тикетов */
+.tickets-list {
+  display: grid;
+  grid-gap: 15px;
+}
+
+/* Карточка тикета */
 .ticket {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: start;
+  gap: 15px;
+}
+
+.ticket-status {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #3498db;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.ticket-status.done {
+  background: #2ecc71;
+  border-color: #2ecc71;
+}
+
+.ticket-content {
+  flex-grow: 1;
+}
+
+.ticket-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.ticket-description {
+  color: #7f8c8d;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.ticket-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+  color: #95a5a6;
+}
+
+.ticket-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Модальное окно */
+.modal {
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* Иконки действий */
+.action-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.action-icon:hover {
+  opacity: 1;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .ticket {
+    flex-direction: column;
+  }
+
+  .ticket-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+/* .ticket {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -11,9 +185,9 @@
 
 .ticket-name {
   flex-grow: 1;
-}
+} */
 
-.modal {
+/* .modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -21,4 +195,4 @@
   background: white;
   padding: 20px;
   border: 1px solid black;
-}
+} */
