@@ -4,19 +4,56 @@
 
 import TicketService from './TicketService';
 import TicketView from './TicketView';
+import Ticket from './Ticket';
+import TicketForm from './TicketForm';
+import DeleteModal from './DeleteModal';
 
 export default class HelpDesk {
   constructor(container) {
     this.container = container;
     this.loadTickets();
     this.container.addEventListener('click', this.handleClick.bind(this));
+    this.ticketService = new TicketService();
   }
 
+  // async loadTickets() {
+  //   try {
+  //     this.container.innerHTML = ''; // Очищаем контейнер перед загрузкой
+
+  //     const tickets = await TicketService.getAllTickets(); // Получаем все тикеты через сервис
+  //     tickets.forEach((ticket) => {
+  //       this.container.appendChild(TicketView.render(ticket)); // Рендерим каждый тикет
+  //     });
+  //   } catch (error) {
+  //     console.error('Ошибка при загрузке тикетов:', error.message);
+  //   }
+  // }
+
   async loadTickets() {
+    const tickets = await this.ticketService.getTickets();
     this.container.innerHTML = '';
-    const tickets = await TicketService.getAllTickets();
+
     tickets.forEach((ticket) => {
-      this.container.appendChild(TicketView.render(ticket));
+      const ticketElement = new Ticket(ticket);
+      const element = ticketElement.render();
+
+      // Кнопка редактирования
+      element.querySelector('.edit-btn').addEventListener('click', () => {
+        TicketForm.showForm(ticket, async (updatedData) => {
+          await this.ticketService.updateTicket(ticket.id, updatedData);
+          this.loadTickets();
+        });
+      });
+
+      // Кнопка удаления
+      element.querySelector('.delete-btn').addEventListener('click', () => {
+        DeleteModal(async () => {
+          await this.ticketService.deleteTicket(ticket.id);
+          this.loadTickets();
+        });
+      });
+
+      this.container.appendChild(element);
     });
   }
 
@@ -39,7 +76,10 @@ export default class HelpDesk {
 
     if (event.target.classList.contains('ticket-status')) {
       await TicketService.updateTicket(id, { status: event.target.checked });
-      this.loadTickets();
+      const currentStatus = event.target.classList.contains('checked');
+      await TicketService.updateTicket(id, { status: !currentStatus });
+      event.target.classList.toggle('checked');
+      event.target.textContent = !currentStatus ? '✓' : '';
     }
   }
 }

@@ -4,8 +4,7 @@
 
 import TicketService from './TicketService';
 
-export default
-class TicketForm {
+export default class TicketForm {
   static showForm(ticket = {}) {
     const overlay = document.createElement('div');
     overlay.className = 'modal-overlay';
@@ -14,12 +13,17 @@ class TicketForm {
     form.className = 'modal';
     form.innerHTML = `
       <div class="modal-content">
-        <h2>Добавить тикет</h2>
+        <h2>${this.ticket ? 'Редактировать тикет' : 'Новый тикет'}</h2>
+
         <label for="ticket-name">Краткое описание</label>
-        <input type="text" id="ticket-name" class="form-control" value='${ticket.name || ''}' placeholder="Введите название">
+        <input type="text" id="ticket-name" class="form-control" value='${
+          ticket.name || ''
+        }' placeholder="Введите название">
 
         <label for="ticket-desc">Полное описание</label>
-        <textarea id="ticket-desc" class="form-control" placeholder="Введите описание">${ticket.description || ''}</textarea>
+        <textarea id="ticket-desc" class="form-control" placeholder="Введите описание">${
+          ticket.description || ''
+        }</textarea>
 
         <div class="modal-buttons" class="form-actions">
           <button id="save-ticket" class="btn btn-primary">Ok</button>
@@ -38,9 +42,13 @@ class TicketForm {
       if (e.target === overlay) closeModal();
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    }, { once: true });
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key === 'Escape') closeModal();
+      },
+      { once: true },
+    );
 
     form.querySelector('#save-ticket').addEventListener('click', async () => {
       const name = document.getElementById('ticket-name').value;

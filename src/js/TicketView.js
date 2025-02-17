@@ -3,32 +3,45 @@
  *  Он содержит методы для генерации разметки тикета.
  * */
 
+import TicketService from './TicketService';
+
 export default class TicketView {
   static async toggleStatus(ticketId) {
     try {
-      const response = await fetch(`http://localhost:7070/tickets/${ticketId}`);
-      const ticket = await response.json();
+      const ticket = await TicketService.getTicketById(ticketId);
+      if (!ticket) {
+        throw new Error('Тикет не найден');
+      }
 
+      // const ticket = await response.json();
       const updatedStatus = !ticket.status;
 
-      const updateResponse = await fetch(`http://localhost:7070/tickets/${ticketId}`, {
-        method: 'PUT',
+      // Обновляем статус тикета
+      const updateResponse = await fetch('http://localhost:7070/', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: updatedStatus }),
+        body: JSON.stringify({
+          method: 'updateById',
+          id: ticketId,
+          data: { status: updatedStatus },
+        }),
       });
 
-      if (updateResponse.ok) {
-        const ticketElement = document.querySelector(`[data-id="${ticketId}"]`);
-        if (ticketElement) {
-          const statusIndicator = ticketElement.querySelector('.ticket-status');
-          statusIndicator.classList.toggle('checked');
-          statusIndicator.textContent = updatedStatus ? '✓' : '';
-        }
+      if (!updateResponse.ok) {
+        throw new Error(`Ошибка при обновлении статуса: ${updateResponse.status}`);
+      }
+
+      // Обновляем интерфейс
+      const ticketElement = document.querySelector(`[data-id="${ticketId}"]`);
+      if (ticketElement) {
+        const statusIndicator = ticketElement.querySelector('.ticket-status');
+        statusIndicator.classList.toggle('checked');
+        statusIndicator.textContent = updatedStatus ? '✓' : '';
       }
     } catch (error) {
-      console.error('Ошибка при изменении статуса:', error);
+      console.warn('Ошибка при изменении статуса:', error.message);
     }
   }
 
@@ -36,11 +49,15 @@ export default class TicketView {
     const ticketEl = document.createElement('div');
     ticketEl.classList.add('ticket');
     ticketEl.dataset.id = ticket.id;
+
     // Колонка статуса
     const status = document.createElement('div');
+
     status.className = `ticket-status ${ticket.status ? 'checked' : ''}`;
     status.textContent = ticket.status ? '✓' : '';
+
     status.addEventListener('click', () => TicketView.toggleStatus(ticket.id));
+
     // Колонка контента
     const content = document.createElement('div');
     content.className = 'ticket-content';
@@ -54,8 +71,8 @@ export default class TicketView {
     date.className = 'ticket-date';
     const createdDate = new Date(ticket.created);
     date.textContent = `${createdDate.toLocaleDateString('ru-RU')} ${createdDate.toLocaleTimeString('ru-RU', {
-    hour: '2-digit',
-    minute: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
     })}`;
 
     // Колонка действий
@@ -65,6 +82,9 @@ export default class TicketView {
         <div class="action-btn edit-btn">✎</div>
         <div class="action-btn delete-btn">✖</div>
     `;
+
+    this.ticketElement.querySelector('.edit-btn').addEventListener('click', () => this.onEdit(ticket));
+    this.ticketElement.querySelector('.delete-btn').addEventListener('click', () => this.onDelete(ticket.id));
 
     // Сборка элементов
     ticketEl.append(status, content, date, ...actions.children);
