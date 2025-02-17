@@ -36,22 +36,23 @@ body {
 }
 
 /* Кнопки */
-.btn {
+
+/* .btn {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
-}
+} */
 
-.btn-primary {
+/* .btn-primary {
   background: #3498db;
   color: white;
-}
+} */
 
-.btn-primary:hover {
+/* .btn-primary:hover {
   background: #2980b9;
-}
+} */
 
 /* Список тикетов */
 .tickets-list {
@@ -61,85 +62,165 @@ body {
 
 /* Карточка тикета */
 .ticket {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flex;
-  align-items: start;
+  display: grid;
+  grid-template-columns: 40px 1fr 150px 40px 40px;
+  align-items: center;
   gap: 15px;
+  padding: 12px 20px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  margin-top: 25px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .ticket-status {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid #3498db;
-  flex-shrink: 0;
-  margin-top: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: white;
 }
 
-.ticket-status.done {
+.ticket-status.checked {
   background: #2ecc71;
   border-color: #2ecc71;
 }
 
 .ticket-content {
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .ticket-title {
   font-weight: 600;
-  margin-bottom: 5px;
+  font-size: 15px;
 }
 
 .ticket-description {
   color: #7f8c8d;
-  font-size: 14px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.ticket-meta {
-  display: flex;
-  gap: 15px;
-  font-size: 12px;
+.ticket-date {
+  font-size: 13px;
   color: #95a5a6;
+  white-space: nowrap;
 }
 
 .ticket-actions {
   display: flex;
-  gap: 10px;
-  flex-shrink: 0;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* Модальное окно */
 .modal {
-  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .modal-content {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  max-width: 500px;
-  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px;
+
+  border-radius: 12px;
+  width: 480px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+
 }
 
-.modal-header {
+/* Заголовок формы */
+.modal-content h2 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ecf0f1;
+  text-align: center;
+}
+
+/* Группы полей ввода */
+.form-group {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 20px;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.form-group label {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-bottom: 6px;
 }
 
 .form-control {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-top: 5px;
+  padding: 12px;
+  border: 2px solid #bdc3c7;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
 }
+
+.form-control:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Кнопки формы */
+.modal-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  margin-left: 10px;
+  background: #ef5c5c;
+  color: white;
+  border: none;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
 
 /* Иконки действий */
 .action-icon {
@@ -154,22 +235,63 @@ body {
   opacity: 1;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
-  }
+/* Кнопка добавления тикета */
+.add-btn {
+  margin-left: auto;
+  padding: 10px 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #edf0ef;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
 
-  .ticket {
-    flex-direction: column;
-  }
+.add-btn:hover {
+  transform: translateY(-2px);
+}
 
-  .ticket-meta {
-    flex-direction: column;
-    gap: 5px;
-  }
+/* Форма добавления тикета */
+.add-ticket-form {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* Список тикетов */
+.tickets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f5f6fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 16px;
+  user-select: none;
+}
+
+.action-btn:hover {
+  background: #3498db;
+  color: white;
+}
+
+/* Формат даты */
+.ticket-date {
+  font-size: 12px;
+  color: #95a5a6;
+  white-space: nowrap;
 }
 
 /* .ticket {

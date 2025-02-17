@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Создаём контейнер для кнопки и списка тикетов
   const container = document.createElement('div');
   container.innerHTML = `
-    <button id="add-ticket">Добавить тикет</button>
+    <button id="add-ticket" class="btn add-btn">Добавить тикет</button>
     <div id="tickets"></div>
   `;
   root.appendChild(container);

@@ -2,50 +2,45 @@
  *  Класс для создания формы создания нового тикета
  * */
 
-// export default class TicketForm {
-//   constructor() {
-//     this.form = document.createElement('div');
-//     this.form.className = 'modal';
-//     this.form.innerHTML = `
-//       <div class="modal-content">
-//         <h3>Добавить тикет</h3>
-//         <input type="text" class="ticket-name" placeholder="Название">
-//         <textarea class="ticket-description" placeholder="Описание"></textarea>
-//         <div class="modal-actions">
-//           <button class="cancel-btn">Отмена</button>
-//           <button class="submit-btn">OK</button>
-//         </div>
-//       </div>
-//     `;
-//   }
-
-//   open() {
-//     document.body.appendChild(this.form);
-//   }
-
-//   close() {
-//     document.body.removeChild(this.form);
-//   }
-// }
-
 import TicketService from './TicketService';
 
-export default class TicketForm {
+export default
+class TicketForm {
   static showForm(ticket = {}) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
     const form = document.createElement('div');
     form.className = 'modal';
     form.innerHTML = `
       <div class="modal-content">
-        <input type="text" id="ticket-name" value="${ticket.name || ''}" placeholder="Название">
-        <textarea id="ticket-desc">${ticket.description || ''}</textarea>
-        <button id="save-ticket">Сохранить</button>
-        <button id="cancel">Отмена</button>
+        <h2>Добавить тикет</h2>
+        <label for="ticket-name">Краткое описание</label>
+        <input type="text" id="ticket-name" class="form-control" value='${ticket.name || ''}' placeholder="Введите название">
+
+        <label for="ticket-desc">Полное описание</label>
+        <textarea id="ticket-desc" class="form-control" placeholder="Введите описание">${ticket.description || ''}</textarea>
+
+        <div class="modal-buttons" class="form-actions">
+          <button id="save-ticket" class="btn btn-primary">Ok</button>
+          <button id="cancel" class="btn btn-secondary">Отмена</button>
+        </div>
       </div>
     `;
 
-    document.body.appendChild(form);
+    overlay.appendChild(form);
+    document.body.appendChild(overlay);
 
-    form.querySelector('#cancel').addEventListener('click', () => form.remove());
+    const closeModal = () => overlay.remove();
+
+    form.querySelector('#cancel').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    }, { once: true });
 
     form.querySelector('#save-ticket').addEventListener('click', async () => {
       const name = document.getElementById('ticket-name').value;
@@ -57,7 +52,7 @@ export default class TicketForm {
         await TicketService.createTicket({ name, description, status: false });
       }
 
-      form.remove();
+      closeModal();
       window.helpDesk.loadTickets();
     });
   }
