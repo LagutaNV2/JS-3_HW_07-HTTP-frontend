@@ -64,4 +64,23 @@ export default class TicketForm {
       window.helpDesk.loadTickets();
     });
   }
+
+  async submit(mode, id) {
+    const data = {
+      name: this.nameInput.value,
+      description: this.descriptionInput.value,
+      status: false // Статус по умолчанию
+    };
+
+    try {
+      if (mode === 'add') {
+        await this.service.create(this.getFormData());
+      } else if (mode === 'edit') {
+        await this.service.update(id, data);
+      }
+      this.onSuccess();
+    } catch (error) {
+      alert(`Ошибка: ${error.message}`);
+    }
+  }
 }
