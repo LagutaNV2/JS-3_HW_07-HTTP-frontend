@@ -1,0 +1,222 @@
+/* Общие стили */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f6fa;
+  color: #2c3e50;
+}
+
+/* Контейнер приложения */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Шапка */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.header h1 {
+  color: #3498db;
+  font-size: 24px;
+}
+
+/* Список тикетов */
+.tickets-list {
+  display: grid;
+  grid-gap: 15px;
+}
+
+/* Карточка тикета */
+.ticket {
+  display: grid;
+  grid-template-columns: 40px 1fr 150px 40px 40px;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.ticket:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-status {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #3498db;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: white;
+}
+.ticket-status.checked {
+  background: #2ecc71;
+  border-color: #2ecc71;
+}
+
+.ticket-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer; /* Добавляем курсор "указатель" */
+}
+
+.ticket-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* .ticket-description {
+  font-size: 14px;
+  color: #666;
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+} */
+
+.ticket-description.hidden {
+  display: none; /* Скрываем описание */
+}
+
+.ticket-description {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px; /* Отступ между заголовком и описанием */
+  transition: opacity 0.3s ease;
+}
+/* .ticket-description.visible {
+  max-height: 100px; /* Высота для отображения описания
+  opacity: 1;
+} */
+
+.ticket-date {
+  font-size: 13px;
+  color: #95a5a6;
+  white-space: nowrap;
+}
+
+.ticket-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f5f6fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 16px;
+  user-select: none;
+}
+.action-btn:hover {
+  background: #3498db;
+  color: white;
+}
+
+/* Кнопка добавления тикета */
+.add-btn {
+  margin-left: auto;
+  padding: 10px 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #edf0ef;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+.add-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Модальное окно */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-width: 90%;
+}
+.modal h2 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #3498db;
+}
+.modal .form-group {
+  margin-bottom: 15px;
+}
+.modal label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+.modal input,
+.modal textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.modal textarea {
+  resize: none;
+  height: 80px;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.modal-buttons .btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.modal-buttons .btn-secondary {
+  background: #fffff5;
+  color: black;
+}
+.modal-buttons .btn-primary {
+  background: #fffffd;
+  color: black;
+}
