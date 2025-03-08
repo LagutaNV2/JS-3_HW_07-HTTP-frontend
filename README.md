@@ -4,6 +4,8 @@ link: https://lagutanv2.github.io/JS-3_HW_07-HTTP-frontend/
 
 ID : [![Build status](https://ci.appveyor.com/api/projects/status/8yp6go3lbrirfxrr?svg=true)](https://ci.appveyor.com/project/LagutaNV2/js-3-hw-07-http-frontend-k2tpg)
 
+server: https://github.com/LagutaNV2/js-3-HW_07_HTTP-server
+
 
 
 Правила сдачи задания:
